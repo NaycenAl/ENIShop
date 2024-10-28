@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import androidx.compose.foundation.Image
@@ -36,6 +37,7 @@ import com.example.enishop.BO.Article
 import com.example.enishop.Dao.memory.ArticleDaoMemoryImpl
 import com.example.enishop.repository.ArticleRepository
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun ArticleDetailScreen(articleId: Long, articleDetailsViewModel: ArticleDetailViewModel= viewModel(factory = ArticleDetailViewModel.Factory ), modifier: androidx.compose.ui.Modifier) {
     val article by articleDetailsViewModel.article.collectAsState()
