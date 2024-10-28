@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -70,6 +71,7 @@ fun ArticleDetailScreen(articleId: Long, articleDetailsViewModel: ArticleDetailV
 
                 Text(
                     text = article!!.name,
+
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -79,6 +81,7 @@ fun ArticleDetailScreen(articleId: Long, articleDetailsViewModel: ArticleDetailV
                             intent.putExtra(SearchManager.QUERY, article!!.name)
                            context.startActivity(intent)
                         }
+                        .testTag("ArticleName")
 
                 )
 
