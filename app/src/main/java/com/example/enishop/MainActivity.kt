@@ -1,6 +1,7 @@
 package com.example.enishop
 
 import AppBarShop
+import ArticleDetailScreen
 import ArticleItem
 import CatgeoriesBar
 import android.annotation.SuppressLint
@@ -30,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.enishop.Dao.memory.ArticleDaoMemoryImpl
+import com.example.enishop.repository.ArticleRepository
 import com.example.enishop.ui.theme.ENIShopTheme
 import com.example.enishop.ui.theme.screen.AddArticle
 
@@ -50,11 +52,11 @@ class MainActivity : ComponentActivity() {
                     Scaffold { innerPadding ->
                       //  AddArticle(modifier = Modifier.padding(innerPadding))
 
-                      //  ArticleDetailScreen(1, ArticleDaoMemoryImpl()  , modifier = Modifier.padding(innerPadding))
+                       ArticleDetailScreen(2 , modifier = Modifier.padding(innerPadding))
 
 
 
-                        ArticleListScreen(modifier = Modifier.padding(innerPadding))
+                       // ArticleListScreen(modifier = Modifier.padding(innerPadding))
                     }
                 }
             }
