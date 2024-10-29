@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,7 +58,13 @@ fun EniShopAppNavHost(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { AppBarShop(onClickToBack = {navHostController.navigateUp()}) },
+        topBar = {
+            AppBarShop(
+                onClickToBack =  {
+            if (navHostController.previousBackStackEntry != null) {
+                navHostController.popBackStack()
+            }
+                 })},
         floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) } // Add FAB with navigation
     ) { paddingValues ->
         NavHost(
@@ -65,6 +72,7 @@ fun EniShopAppNavHost(
             startDestination = ArticleListScreen.route,
             modifier = modifier.padding(paddingValues)
         ) {
+
             composable(route = ArticleListScreen.route) {
                 ArticleListScreen(OnClickToDetails = { navHostController.navigate("${ArticleDetailsScreen.route}/$it") })
             }

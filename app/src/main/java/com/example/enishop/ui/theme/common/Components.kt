@@ -40,13 +40,8 @@ fun AppBarShop(onClickToBack: () -> Unit = {}, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                IconButton(onClick = { onClickToBack() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Retour",
-                        tint = Color(0xFF367DDC)
-                    )
-                }
+
+
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Icône",
@@ -66,6 +61,18 @@ fun AppBarShop(onClickToBack: () -> Unit = {}, modifier: Modifier = Modifier) {
 
             }
         },
+        navigationIcon = {
+
+
+                IconButton(onClick = { onClickToBack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Retour",
+                        tint = Color(0xFF367DDC)
+                    )
+                }
+
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White,
             titleContentColor = Color.Black
@@ -76,6 +83,7 @@ fun AppBarShop(onClickToBack: () -> Unit = {}, modifier: Modifier = Modifier) {
             .background(Color.White)
 
     )
+
 
 
 }

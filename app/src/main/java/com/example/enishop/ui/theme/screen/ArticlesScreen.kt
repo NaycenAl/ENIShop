@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -121,17 +123,18 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
                     modifier = Modifier
                         .size(40.dp)
                         .background(
-                            MaterialTheme.colorScheme.primary,
+                            Color.Transparent,
                             shape = CircleShape
                         )
                         .padding(8.dp)
                         .clickable(onClick = { })
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
+                        imageVector = Icons.Filled.Add,
                         contentDescription = "Acheter",
-                        tint = Color.White
-                    )
+                        tint = Color(0xFF367DDC)
+                        )
+
 
                 }
             }

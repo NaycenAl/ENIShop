@@ -41,23 +41,20 @@ fun CatgeoriesBar(categories : List<String>,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(categories) {
-            val borderModifier = Modifier.border(
-                BorderStroke(
-                    width = 2.dp,
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(Color(0xFF144A7F), Color(0xFF367DDC)) // Couleurs de dégradé
-                    )
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
+
             FilterChip(
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = Color.Transparent,
-
-
+                    containerColor = Color.Transparent
                 ),
+                border =   BorderStroke(
+                        width = 2.dp,
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(Color(0xFF144A7F), Color(0xFF367DDC))
+                        )
 
-                shape = RoundedCornerShape(16.dp),
+                    ),
+
+                shape = RoundedCornerShape(12.dp),
                 selected = selectedCategory == it,
                 onClick = {
                     if (selectedCategory != it) {
@@ -69,32 +66,9 @@ fun CatgeoriesBar(categories : List<String>,
 
                 label ={ Text(text = it) },
 
-                modifier = borderModifier
 
             )
         }
     }
 
-}
-
-
-
-@Composable
-fun CategoryChip(category : String,
-                 onCategorySelected : (String) -> Unit,
-                 isSelected : Boolean = false) {
-    val backgroundColor = if (isSelected) Color.Blue else Color.Gray
-    val textColor = if (isSelected) Color.White else Color.Black
-
-
-    Box(modifier = androidx.compose.ui.Modifier
-        .clip(RoundedCornerShape(15.dp))
-        .background(color = backgroundColor)
-      ){
-        Text(
-            text = category,
-            color = textColor,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium)
-    }
 }
