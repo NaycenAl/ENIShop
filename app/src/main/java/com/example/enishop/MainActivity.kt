@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,14 +25,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.enishop.Dao.memory.ArticleDaoMemoryImpl
-import com.example.enishop.repository.ArticleRepository
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.enishop.ui.theme.ENIShopTheme
+import com.example.enishop.ArticleListScreen
+import com.example.enishop.ui.theme.common.FAB
 import com.example.enishop.ui.theme.screen.AddArticle
-
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("SuspiciousIndentation")
@@ -44,56 +44,75 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ENIShopTheme {
-                Column(modifier = Modifier.fillMaxSize(),) {
-                    AppBarShop()
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Scaffold { innerPadding ->
-                      //  AddArticle(modifier = Modifier.padding(innerPadding))
-
-                       ArticleDetailScreen(2 , modifier = Modifier.padding(innerPadding))
-
-
-
-                       // ArticleListScreen(modifier = Modifier.padding(innerPadding))
-                    }
-                }
+                EniShopAppNavHost()
             }
         }
     }
 }
 
+
 @Composable
-fun ArticleListScreen(articleViewModel: ArticleViewModel = viewModel(factory = ArticleViewModel.Factory ),  modifier : Modifier = Modifier ) {
-
-    val articles by articleViewModel.articles.collectAsState()
-    val categories by articleViewModel.categories.collectAsState()
-    var category by rememberSaveable { mutableStateOf("") }
-    var filtredArticles= if (category != "")
-    {
-        articles.filter { it.category == category }
-    } else {
-        articles
-    }
-
-Column(modifier = Modifier.padding(8.dp)) {
-    CatgeoriesBar(
-        categories = categories ,
-        selectedCategory = category,
-        onCategoryChange = { category = it })
-    LazyVerticalGrid(columns = GridCells.Fixed(2),) {
-        items(filtredArticles) {
-            ArticleItem(article = it)
+fun EniShopAppNavHost(
+    navHostController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        topBar = { AppBarShop(onClickToBack = {navHostController.navigateUp()}) },
+        floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) } // Add FAB with navigation
+    ) { paddingValues ->
+        NavHost(
+            navController = navHostController,
+            startDestination = ArticleListScreen.route,
+            modifier = modifier.padding(paddingValues)
+        ) {
+            composable(route = ArticleListScreen.route) {
+                ArticleListScreen(OnClickToDetails = { navHostController.navigate("${ArticleDetailsScreen.route}/$it") })
+            }
+            composable(route = ArticleDetailsScreen.routeWithArgs, arguments = ArticleDetailsScreen.arguments) { navBackStackEntry ->
+                val articleId = navBackStackEntry.arguments?.getLong(ArticleDetailsScreen.argArticleId.toString())
+                if (articleId != null) {
+                    ArticleDetailScreen(articleId = articleId, modifier = Modifier)
+                }
+            }
+            composable(route = AddArticleScreen.route) {
+                AddArticle(modifier)
+            }
         }
     }
-}
 
 }
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ENIShopTheme {
-    AppBarShop()
+
+
+    @Composable
+    fun ArticleListScreen(
+        articleViewModel: ArticleViewModel = viewModel(factory = ArticleViewModel.Factory),
+        modifier: Modifier = Modifier,
+        OnClickToDetails: (Long) -> Unit
+    ) {
+
+        val articles by articleViewModel.articles.collectAsState()
+        val categories by articleViewModel.categories.collectAsState()
+        var category by rememberSaveable { mutableStateOf("") }
+        var filtredArticles = if (category != "") {
+            articles.filter { it.category == category }
+        } else {
+            articles
+        }
+
+        Column(modifier = Modifier.padding(8.dp)) {
+            CatgeoriesBar(
+                categories = categories,
+                selectedCategory = category,
+                onCategoryChange = { category = it })
+            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                items(filtredArticles) {
+
+                    ArticleItem(article = it, onClickToDetails = OnClickToDetails)
+                }
+
+            }
+
+
+        }
+
     }
-}

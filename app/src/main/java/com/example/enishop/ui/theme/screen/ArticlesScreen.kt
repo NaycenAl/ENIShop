@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -45,7 +46,7 @@ import com.example.enishop.Dao.memory.ArticleDaoMemoryImpl
 import com.example.enishop.repository.ArticleRepository
 
 @Composable
-fun ArticleItem(article: Article) {
+fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
 
 
     var isFavorite by remember { mutableStateOf(false) }
@@ -58,7 +59,7 @@ fun ArticleItem(article: Article) {
         colors = CardDefaults.cardColors(Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         , onClick = {
-
+            onClickToDetails(article.id)
         }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -127,7 +128,7 @@ fun ArticleItem(article: Article) {
                         .clickable(onClick = { })
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Add,
+                        imageVector = Icons.Filled.ShoppingCart,
                         contentDescription = "Acheter",
                         tint = Color.White
                     )
