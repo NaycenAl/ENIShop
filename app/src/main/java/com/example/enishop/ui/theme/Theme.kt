@@ -9,12 +9,13 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = blue1,
-    secondary = gray,
-    tertiary = blue2
+    primary = Color.Black,
+    secondary = Color.Black,
+    tertiary = Color.DarkGray
 )
 
 private val LightColorScheme = lightColorScheme(

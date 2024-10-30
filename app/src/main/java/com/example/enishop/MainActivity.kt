@@ -20,9 +20,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,8 +36,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.enishop.ui.theme.ENIShopTheme
 import com.example.enishop.ArticleListScreen
+import com.example.enishop.datastore.DataStoreManager
 import com.example.enishop.ui.theme.common.FAB
 import com.example.enishop.ui.theme.screen.AddArticle
+import kotlinx.coroutines.flow.collect
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("SuspiciousIndentation")
@@ -43,8 +47,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+
         setContent {
-            ENIShopTheme {
+           var isDarkModeActivated  by rememberSaveable {
+                mutableStateOf(false)
+            }
+
+            LaunchedEffect(Unit) {
+                DataStoreManager.isDarkModeActivated(this@MainActivity).collect {
+                    isDarkModeActivated = it
+                }
+            }
+
+            ENIShopTheme(darkTheme = isDarkModeActivated) {
                 EniShopAppNavHost()
             }
         }
