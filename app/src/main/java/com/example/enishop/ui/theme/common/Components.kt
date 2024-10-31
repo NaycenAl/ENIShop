@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -112,6 +115,23 @@ fun AppBarShop(onClickToBack: () -> Unit = {}, modifier: Modifier = Modifier) {
 
 
 
+}
+
+@Composable
+fun ArticleListBottomBar(){
+    BottomAppBar {
+        Row (modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center){
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
+            
+        }
+            IconButton(onClick = {}) {
+                Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Fav")
+
+            }
+        }
+    }
 }
 @Composable
 fun SettingsMenu() {

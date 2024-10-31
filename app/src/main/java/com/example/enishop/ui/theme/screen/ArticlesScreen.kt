@@ -51,7 +51,7 @@ import com.example.enishop.repository.ArticleRepository
 fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
 
 
-    var isFavorite by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -66,24 +66,7 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
 
-                horizontalArrangement = Arrangement.End
-            ) {
-                Icon(
-                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Ajouter aux favoris",
-                    tint = if (isFavorite) Color.Red else Color.Gray,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            isFavorite = !isFavorite
-                        }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-
-            }
             Image(
                 painter = rememberAsyncImagePainter(article.urlImage),
                 contentDescription = article.name,

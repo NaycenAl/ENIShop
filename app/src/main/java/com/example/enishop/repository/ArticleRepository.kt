@@ -2,26 +2,52 @@ package com.example.enishop.repository
 
 import com.example.enishop.BO.Article
 import com.example.enishop.Dao.ArticleDao
-import com.example.enishop.Dao.DaoFactory
 import com.example.enishop.Dao.DaoType
 
-class ArticleRepository {
+class ArticleRepository(private val articleDaoRoomImpl: ArticleDao,
+                        private val articleDaoMemoryImpl: ArticleDao
+){
 
 
 
-    private val articleDao : ArticleDao = DaoFactory.createArticleDao(DaoType.MEMORY)
+    fun getArticleById(id: Long, type: DaoType = DaoType.MEMORY): Article? {
+            return when (type) {
+                DaoType.MEMORY -> articleDaoMemoryImpl.findById(id)
+                else -> articleDaoRoomImpl.findById(id)
+            }
 
-    fun getArticleById(id: Long): Article? {
-        return articleDao.findById(id)
 
     }
 
-    fun addArticle(article: Article): Long {
-        return articleDao.insertArticle(article)
+    suspend fun addArticle(article: Article, type: DaoType = DaoType.MEMORY) {
+        when (type) {
+            DaoType.MEMORY -> articleDaoMemoryImpl.insertArticle(article)
+            else -> articleDaoRoomImpl.insertArticle(article)
+        }
     }
 
-    fun getAllArticles(): List<Article> {
-        return articleDao.getAllArticles()
+    suspend fun addArticleFav(article: Article)  {
+        articleDaoRoomImpl.insertArticle(article)
+    }
+
+    suspend fun deleteArticle(article: Article, type: DaoType = DaoType.MEMORY) {
+        when (type){
+            DaoType.MEMORY -> articleDaoMemoryImpl.deleteArticle(article)
+            else -> articleDaoRoomImpl.deleteArticle(article)
+        }
+        articleDaoRoomImpl.deleteArticle(article)
+    }
+
+    fun getArticleFav(id: Long) : Article?{
+        return articleDaoRoomImpl.findById(id)
+    }
+
+
+  suspend fun getAllArticles(type: DaoType = DaoType.MEMORY): List<Article> {
+      return when (type) {
+          DaoType.MEMORY -> articleDaoMemoryImpl.getAllArticles()
+          else -> articleDaoRoomImpl.getAllArticles()
+      }
 
     }
 

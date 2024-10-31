@@ -1,5 +1,5 @@
 package com.example.enishop.Dao
 
 enum class DaoType {
-MEMORY, NETWORK
+MEMORY, NETWORK, ROOM
 }

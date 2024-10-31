@@ -3,6 +3,7 @@ package com.example.enishop
 import AppBarShop
 import ArticleDetailScreen
 import ArticleItem
+import ArticleListBottomBar
 import CatgeoriesBar
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -61,6 +62,7 @@ class MainActivity : ComponentActivity() {
 
             ENIShopTheme(darkTheme = isDarkModeActivated) {
                 EniShopAppNavHost()
+
             }
         }
     }
@@ -80,7 +82,8 @@ fun EniShopAppNavHost(
                 navHostController.popBackStack()
             }
                  })},
-        floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) } // Add FAB with navigation
+        floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) }
+      ,  bottomBar = { ArticleListBottomBar() }
     ) { paddingValues ->
         NavHost(
             navController = navHostController,
@@ -94,12 +97,13 @@ fun EniShopAppNavHost(
             composable(route = ArticleDetailsScreen.routeWithArgs, arguments = ArticleDetailsScreen.arguments) { navBackStackEntry ->
                 val articleId = navBackStackEntry.arguments?.getLong(ArticleDetailsScreen.argArticleId.toString())
                 if (articleId != null) {
-                    ArticleDetailScreen(articleId = articleId, modifier = Modifier)
+                    ArticleDetailScreen(articleId = articleId)
                 }
             }
             composable(route = AddArticleScreen.route) {
                 AddArticle(modifier)
             }
+
         }
     }
 
