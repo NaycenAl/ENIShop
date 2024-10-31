@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.enishop.BO.Article
 import com.example.enishop.Dao.ArticleDao
 
-@Database(entities = [Article::class], version = 3)
+@Database(entities = [Article::class], version = 4)
 abstract class ArticleDatabase : RoomDatabase() {
 
     abstract fun getArticleDao (): ArticleDao

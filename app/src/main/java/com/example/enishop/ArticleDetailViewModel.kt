@@ -11,6 +11,7 @@ import com.example.enishop.Dao.DaoFactory
 import com.example.enishop.Dao.DaoType
 import com.example.enishop.db.ArticleDatabase
 import com.example.enishop.repository.ArticleRepository
+import com.example.enishop.service.ArticleService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +24,7 @@ class ArticleDetailViewModel(private val articleRepository: ArticleRepository) :
 
     fun fetchArticleDetail(articleId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _currentArticle.value = articleRepository.getArticleById(articleId)
+            _currentArticle.value = articleRepository.getArticleByIdFromAPI(articleId)
         }
     }
 
@@ -68,7 +69,7 @@ class ArticleDetailViewModel(private val articleRepository: ArticleRepository) :
                 return ArticleDetailViewModel(
                     ArticleRepository(
                         ArticleDatabase.getInstance(application.applicationContext).getArticleDao(),
-                        DaoFactory.createArticleDao(DaoType.MEMORY))
+                        DaoFactory.createArticleDao(DaoType.MEMORY),  ArticleService.articleApi.retrofitService)
                 ) as T
             }
         }

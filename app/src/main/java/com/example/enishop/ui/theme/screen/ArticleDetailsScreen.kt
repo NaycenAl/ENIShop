@@ -4,13 +4,16 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -56,85 +59,91 @@ fun ArticleDetailScreen(articleId: Long, articleDetailsViewModel: ArticleDetailV
 
     if (article != null) {
 
-        Card( modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-            shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)) {
-                Icon(
-                    imageVector = if (isArticleFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Ajouter aux favoris",
-                    tint = if (isArticleFavorite) Color.Red else Color.Gray,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
+        Box(modifier = Modifier.verticalScroll(rememberScrollState())){
 
-                            if(!isArticleFavorite) {
-                                articleDetailsViewModel.saveArticleAsFavorite()
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = CardDefaults.cardColors(Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isArticleFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = "Ajouter aux favoris",
+                        tint = if (isArticleFavorite) Color.Red else Color.Gray,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+
+                                if (!isArticleFavorite) {
+                                    articleDetailsViewModel.saveArticleAsFavorite()
+                                } else
+                                    articleDetailsViewModel.deleteArticleAsFavorite()
+
                             }
-                            else
-                                articleDetailsViewModel.deleteArticleAsFavorite()
+                    )
+                    Image(
+                        painter = rememberAsyncImagePainter(article!!.urlImage),
+                        contentDescription = article!!.name,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
 
-                        }
-                )
-                Image(
-                    painter = rememberAsyncImagePainter(article!!.urlImage),
-                    contentDescription = article!!.name,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
+                        )
 
-                )
+                    Text(
+                        text = article!!.name,
 
-                Text(
-                    text = article!!.name,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable {
+                                var intent = Intent(Intent.ACTION_WEB_SEARCH)
+                                intent.putExtra(SearchManager.QUERY, article!!.name)
+                                context.startActivity(intent)
+                            }
+                            .testTag("ArticleName")
 
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable {
-                          var intent = Intent(Intent.ACTION_WEB_SEARCH)
-                            intent.putExtra(SearchManager.QUERY, article!!.name)
-                           context.startActivity(intent)
-                        }
-                        .testTag("ArticleName")
+                    )
 
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(22.dp),
-                )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(22.dp),
+                    )
 
 
 
 
-                Text(
-                    text = article!!.description,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Justify
-                )
+                    Text(
+                        text = article!!.description,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Justify
+                    )
 
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(22.dp),
-                )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(22.dp),
+                    )
 
 
-                Text(
-                    text = "£${article!!.price}",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                    Text(
+                        text = "${article!!.price}€",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
 
+                }
             }
         }
     } else {

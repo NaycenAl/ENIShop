@@ -1,4 +1,5 @@
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,7 +70,7 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
 
             Image(
                 painter = rememberAsyncImagePainter(article.urlImage),
-                contentDescription = article.name,
+                contentDescription = article.name ,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp),
@@ -79,7 +80,7 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
             Spacer(modifier = Modifier.height(28.dp))
 
             Text(
-                text = article.name,
+                text = article.name ,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 minLines = 2,
@@ -96,7 +97,7 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
                 modifier = Modifier.fillMaxWidth()) {
 
                 Text(
-                    text = "£${article.price}",
+                    text = "${article.price} €",
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
 
@@ -117,8 +118,6 @@ fun ArticleItem(article: Article, onClickToDetails: (Long) -> Unit) {
                         contentDescription = "Acheter",
                         tint = Color(0xFF367DDC)
                         )
-
-
                 }
             }
 

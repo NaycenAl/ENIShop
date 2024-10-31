@@ -1,5 +1,6 @@
 package com.example.enishop
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -10,6 +11,7 @@ import com.example.enishop.Dao.DaoFactory
 import com.example.enishop.Dao.DaoType
 import com.example.enishop.db.ArticleDatabase
 import com.example.enishop.repository.ArticleRepository
+import com.example.enishop.service.ArticleService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,12 +33,24 @@ class ArticleViewModel (private val articleRepository : ArticleRepository ) : Vi
 
 
     init
-    {    viewModelScope.launch(Dispatchers.IO) {
-        _articles.value = articleRepository.getAllArticles()
+    {
+        fetchArticles()
+        fetchCategories()
+
     }
 
-        _categories.value = listOf("electronics","jewelery","men's clothing","women's clothing")
+    private fun fetchArticles() {
+        viewModelScope.launch(Dispatchers.IO) {
 
+            _articles.value = articleRepository.getAllArticlesFromAPI()
+            Log.i("API Response", "Réponse reçue : $_articles")
+        }
+    }
+    private fun fetchCategories() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _categories.value = articleRepository.getCategories()
+
+        }
     }
 
     companion object {
@@ -51,7 +65,7 @@ class ArticleViewModel (private val articleRepository : ArticleRepository ) : Vi
 
                 return ArticleViewModel(
                     ArticleRepository(ArticleDatabase.getInstance(application.applicationContext).getArticleDao(),
-                        DaoFactory.createArticleDao(DaoType.MEMORY))
+                        DaoFactory.createArticleDao(DaoType.MEMORY), ArticleService.articleApi.retrofitService)
 
                 ) as T
             }
