@@ -40,7 +40,7 @@ fun CategoryDropdownMenu(selectedCategory: String, onCategorySelected: (String) 
             value = selectedCategory,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Catégories") },
+            label = { Text("Categories") },
 
 
                     modifier = androidx.compose.ui.Modifier

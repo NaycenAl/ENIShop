@@ -66,12 +66,12 @@ fun AddArticle(modifier: androidx.compose.ui.Modifier) {
 
         .verticalScroll(rememberScrollState())
     ){
-    Text(text = "Ajouter un article", fontSize = 22.sp, color = Color.Black, textAlign = TextAlign.Center)
+    Text(text = "Add an Article", fontSize = 22.sp, color = Color.Black, textAlign = TextAlign.Center,  modifier = Modifier.fillMaxWidth())
 
         TextFieldCustom(
             value = titre,
             onValueChange = { titre = it },
-            label = "Titre",
+            label = "Title",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
@@ -86,7 +86,7 @@ fun AddArticle(modifier: androidx.compose.ui.Modifier) {
             value = prix,
 
             onValueChange = { prix = if(it.toDoubleOrNull() != null && it.isNotEmpty()) it else  "" },
-            label = "Prix",
+            label = "Price",
             keyboardOptions= KeyboardOptions(keyboardType = KeyboardType.Number)
 
         )
@@ -97,7 +97,7 @@ fun AddArticle(modifier: androidx.compose.ui.Modifier) {
 
             Button(
                 onClick = {
-                    Toast.makeText(context, "$titre Ajouté", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "$titre Added", Toast.LENGTH_SHORT).show()
 
                 },
                 modifier = Modifier
@@ -112,7 +112,7 @@ fun AddArticle(modifier: androidx.compose.ui.Modifier) {
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(text = "Ajouter", fontSize = 16.sp)
+                Text(text = "Add Article", fontSize = 16.sp)
             }
         }
 

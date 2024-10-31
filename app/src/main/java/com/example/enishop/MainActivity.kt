@@ -82,7 +82,7 @@ fun EniShopAppNavHost(
                 navHostController.popBackStack()
             }
                  })},
-        floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) }
+        floatingActionButton = { FAB( onClickToAddForm = {navHostController.navigate(AddArticleScreen.route)}) } // Add FAB with navigation
       ,  bottomBar = { ArticleListBottomBar() }
     ) { paddingValues ->
         NavHost(
